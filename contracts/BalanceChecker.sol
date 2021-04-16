@@ -43,21 +43,21 @@ contract BalanceChecker {
     array is ordered by all of the 0th users token balances, then the 1th
     user, and so on.
   */
+
   function balances(address[] users, address[] tokens) external view returns (uint[]) {
     uint[] memory addrBalances = new uint[](tokens.length * users.length);
     
     for(uint i = 0; i < users.length; i++) {
       for (uint j = 0; j < tokens.length; j++) {
-        uint addrIdx = j + tokens.length * i;
+        uint addrIdx = i + users.length * j;
         if (tokens[j] != address(0x0)) { 
           addrBalances[addrIdx] = tokenBalance(users[i], tokens[j]);
         } else {
           addrBalances[addrIdx] = users[i].balance; // ETH balance    
         }
-      }  
+      }
     }
   
     return addrBalances;
   }
-
 }
